@@ -1,0 +1,79 @@
+---
+interface Props {
+	title: string;
+	horas: string;
+	appid: number;
+}
+
+interface Achievement {
+	appname: string;
+	achieved: number;
+	unlocktime: number;
+}
+
+const { title, horas, appid } = Astro.props;
+
+const response = await fetch(
+	`http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appid}&key=0C597FED8B986897CCE87238DFBCBC8A&steamid=76561198099032533`,
+);
+
+const data = await response.json();
+
+const game = data.playerstats;
+
+var countOfAchievement: number = 0;
+
+if (
+	game.success == true &&
+	game.achievements != undefined &&
+	game.achievements.length
+) {
+	game.achievements.map((achievement: Achievement) => {
+		if (achievement.achieved) {
+			countOfAchievement++;
+		}
+	});
+}
+---
+
+<main class="flex justify-center w-80 mx-auto mb-9">
+	<section class="group h-96 w-96">
+		<div
+			class="relative h-full w-full rounded-xl shadow-xl transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]"
+		>
+			<div class="absolute inset-0">
+				<img
+					class="h-full w-full rounded-xl object-fill shadow-xl shadow-black/40"
+					onerror=`this.onerror=null;this.src='https://steamcdn-a.akamaihd.net/steam/apps/${appid}/header.jpg';`
+					src=`https://steamcdn-a.akamaihd.net/steam/apps/${appid}/library_600x900_2x.jpg`
+					alt=`No se cargo la imagen de ${title}`
+				/>
+			</div>
+			<div
+				class="absolute inset-0 h-full w-full rounded-xl bg-black/90 px-12 text-center text-slate-200 [transform:rotateY(180deg)] [backface-visibility:hidden]"
+			>
+				<div
+					class="flex min-h-full flex-col items-center justify-center text-white"
+				>
+					<h1 class="text-3xl font-bold">
+						<a
+							href=`https://store.steampowered.com/app/${appid}`
+							target="_blank">{title}</a
+						>
+					</h1>
+
+					<h2 class="text-lg">
+						{
+							game.success == true &&
+							game.achievements != undefined
+								? `Logros ${countOfAchievement} /
+								${game.achievements.length}`
+								: "No posee logros el juego"
+						}
+					</h2>
+					<p class="text-base">{horas} Horas registradas</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
