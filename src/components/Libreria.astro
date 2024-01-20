@@ -1,13 +1,6 @@
 ---
+import { type Game } from "../interfaces/game";
 import Card from "./Card.astro";
-
-interface game {
-    name: string;
-    playtime_forever: number;
-    appid: number;
-    img_icon_url: string;
-    img_logo_url: string;
-}
 
 const response = await fetch(
     " http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=0C597FED8B986897CCE87238DFBCBC8A&steamid=76561198099032533&format=json&include_appinfo=true",
@@ -15,9 +8,9 @@ const response = await fetch(
 
 const data = await response.json();
 
-const games = data.response.games;
+var games = data.response.games;
 
-games.sort(function (a: game, b: game) {
+games.sort(function (a: Game, b: Game) {
     const nameA = a.name.toUpperCase();
     const nameB = b.name.toUpperCase();
     if (nameA < nameB) {
@@ -34,7 +27,7 @@ games.sort(function (a: game, b: game) {
     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-auto content-center justify-center mt-20"
 >
     {
-        games.map(({ name, playtime_forever: horas, appid }: game) => (
+        games.map(({ name, playtime_forever: horas, appid }: Game) => (
             <Card title={name} horas={(horas / 60).toFixed(1)} appid={appid} />
         ))
     }

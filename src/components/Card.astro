@@ -1,14 +1,9 @@
 ---
+import { type Achievement } from "../interfaces/achievement";
 interface Props {
 	title: string;
 	horas: string;
 	appid: number;
-}
-
-interface Achievement {
-	appname: string;
-	achieved: number;
-	unlocktime: number;
 }
 
 const { title, horas, appid } = Astro.props;
@@ -68,7 +63,7 @@ if (
 							game.achievements != undefined
 								? `Logros ${countOfAchievement} /
 								${game.achievements.length}`
-								: "No posee logros el juego"
+								: "El juego no tiene logros"
 						}
 					</h2>
 					<p class="text-base">{horas} Horas registradas</p>
