@@ -8,7 +8,7 @@ const response = await fetch(
 
 const data = await response.json();
 
-var games = data.response.games;
+const games = data.response.games;
 
 games.sort(function (a: Game, b: Game) {
     const nameA = a.name.toUpperCase();
@@ -32,3 +32,7 @@ games.sort(function (a: Game, b: Game) {
         ))
     }
 </section>
+<button
+    class="flex flex-row justify-center mx-auto py-3 px-5 bg-red-500 rounded-xl text-xl font-bold mb-0"
+    id="cargarMas">Cargar más juegos</button
+>
