@@ -10,29 +10,45 @@ const data = await response.json();
 
 const games = data.response.games;
 
-games.sort(function (a: Game, b: Game) {
-    const nameA = a.name.toUpperCase();
-    const nameB = b.name.toUpperCase();
-    if (nameA < nameB) {
-        return -1;
-    }
-    if (nameA > nameB) {
-        return 1;
-    }
-    return 0;
-});
+var listaNueva = games.slice(0, 20);
+
+const ordenarLista = (lista: Game[]) => {
+    lista.sort(function (a: Game, b: Game) {
+        const nameA = a.name.toUpperCase();
+        const nameB = b.name.toUpperCase();
+        if (nameA < nameB) {
+            return -1;
+        }
+        if (nameA > nameB) {
+            return 1;
+        }
+        return 0;
+    });
+
+    return lista;
+};
+
+listaNueva = ordenarLista(listaNueva);
 ---
 
 <section
     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-auto content-center justify-center mt-20"
 >
     {
-        games.map(({ name, playtime_forever: horas, appid }: Game) => (
+        listaNueva.map(({ name, playtime_forever: horas, appid }: Game) => (
             <Card title={name} horas={(horas / 60).toFixed(1)} appid={appid} />
         ))
     }
 </section>
 <button
     class="flex flex-row justify-center mx-auto py-3 px-5 bg-red-500 rounded-xl text-xl font-bold mb-0"
-    id="cargarMas">Cargar más juegos</button
+    data-chargeMore-button>Cargar más juegos</button
 >
+
+<script>
+    const buttons = document.querySelectorAll("[data-chargeMore-button]");
+
+    buttons.forEach((button) => {
+        button.addEventListener("click", () => {});
+    });
+</script>

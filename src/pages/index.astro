@@ -1,13 +1,13 @@
 ---
 import Card from "../components/Card.astro";
 import Header from "../components/Header.astro";
-import Libreria from "../components/Libreria.astro";
+import { Library } from "../components/Library.jsx";
 import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Steam Library.">
 	<Header />
 	<main>
-		<Libreria />
+		<Library client:load />
 	</main>
 </Layout>
