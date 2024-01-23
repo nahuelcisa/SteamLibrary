@@ -26,7 +26,7 @@ export function Card({ title, horas, appid }) {
 
     const [juego, setJuego] = useState({});
 
-    useEffect(() => {
+    /* useEffect(() => {
         console.log("entre")
         fetch(`http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appid}&key=0C597FED8B986897CCE87238DFBCBC8A&steamid=76561198099032533`)
             .then((response) => response.json())
@@ -35,7 +35,7 @@ export function Card({ title, horas, appid }) {
                 setJuego(data.playerstats)
                 console.log(juego);
             })
-    }, [juego])
+    }, [juego]) */
 
 
     var countOfAchievement = 0;
@@ -64,10 +64,10 @@ export function Card({ title, horas, appid }) {
                         <div className="absolute inset-0">
                             <img
                                 className="h-full w-full rounded-xl object-fill shadow-xl shadow-black/40"
-                                onError={({ currentTarget }) => {
-                                    currentTarget.onerror = null;
-                                    currentTarget.src = `https://steamcdn-a.akamaihd.net/steam/apps/${appid}/header.jpg`
-                                }}
+                                /*                                 onError={({ currentTarget }) => {
+                                                                    currentTarget.onerror = null;
+                                                                    currentTarget.src = `https://steamcdn-a.akamaihd.net/steam/apps/${appid}/header.jpg`
+                                                                }} */
                                 src={`https://steamcdn-a.akamaihd.net/steam/apps/${appid}/library_600x900_2x.jpg`}
                                 alt={`No se cargo la imagen de ${title}`}
                             />

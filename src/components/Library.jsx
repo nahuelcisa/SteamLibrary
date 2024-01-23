@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { Card } from "./Card.jsx";
+import JUEGOS from "./juegos.json"
 
 /* const response = await fetch(
     " http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=0C597FED8B986897CCE87238DFBCBC8A&steamid=76561198099032533&format=json&include_appinfo=true",
@@ -18,38 +19,40 @@ const data = await response.json(); */
 
 export function Library() {
 
+    const games = JUEGOS.games;
+    var booleanButton = true;
 
-    /*   const games = data.response.games; */
-
-    fetch(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=0C597FED8B986897CCE87238DFBCBC8A&steamid=76561198099032533&format=json&include_appinfo=true`,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            mode: 'no-cors', // <---
-            cache: 'default'
-        }
-    )
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data.playerstats)
-            console.log(juego);
-        })
+    /*     fetch(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=0C597FED8B986897CCE87238DFBCBC8A&steamid=76561198099032533&format=json&include_appinfo=true`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                mode: 'no-cors', // <---
+                cache: 'default'
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data.playerstats)
+                console.log(juego);
+            }) */
 
 
     const [listaNueva, setListaNueva] = useState(games.slice(0, 20))
-    const [index, setIndex] = useState(20);
+    const [index, setIndex] = useState(199);
 
 
     const handleButton = () => {
-        if ((listaNueva.length - 1) + 20 > (games.length - 1) - 20) {
+        if ((listaNueva.length - 1) + 20 < (games.length - 1) - 20) {
             setIndex((listaNueva.length - 1) + 20)
         } else {
-            setIndex(games.length - 1);
-        }
+            setIndex(games.length);
+            booleanButton = false;
+            console.log(booleanButton)
+            console.log(listaNueva.length)
 
-        console.log('a')
+        }
     }
 
     useEffect(() => {
@@ -83,12 +86,15 @@ export function Library() {
                     ))
                 }
             </section>
+
             <button
-                className="flex flex-row justify-center mx-auto py-3 px-5 bg-red-500 rounded-xl text-xl font-bold mb-0"
-                onClick={() => {
-                    console.log("aaa")
+                style={{
+                    display: booleanButton == false ? "none" : "flex"
                 }}
+                className={`flex-row justify-center mx-auto py-3 px-5 bg-red-500 rounded-xl text-xl font-bold mb-0`}
+                onClick={handleButton}
             >Cargar más juegos</button>
+
         </>
     )
 }
